@@ -30,10 +30,6 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-const store = redux.createStore(reducer);
-/* createStore is a function provided to us by
- * Redux that will create our store object.
- */
 
 const MENU = '(l) buy lunch (c) buy car (g) gamble (p) get paid (x) exit';
 
@@ -47,15 +43,6 @@ store.subscribe(() => {
   console.log(MENU); // display the menu
   console.log();
 });
-
-store.dispatch({type: '__INIT__'});
-/* Here we're dispatching an initial action to
- * our store. For this first action, our state
- * is 'undefined', so the default initialState
- * will be loaded into our store. Since the 
- * action type does not match any of our cases
- * the default state will be returned.
- */
 
 // This next bit sets up our CLI
 keypress(process.stdin)
