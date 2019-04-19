@@ -6,24 +6,24 @@ const initialState = { balance: 5000 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_PAID':
-      console.log("PAYDAY! +2000");
-      return {...state, balance: state.balance + 2000};
+      console.log(`PAYDAY! + $${action.payload}!`);
+      return {...state, balance: state.balance + action.payload};
 
     case 'BUY_LUNCH':
       console.log("You'd really save more by packing your lunch.");
-      return {...state, balance: state.balance - 20};
+      return {...state, balance: state.balance + action.payload};
 
     case 'BUY_CAR':
-      console.log("You buy a used car for 3000");
-      return {...state, balance: state.balance - 3000};
+      console.log(`You buy a used car for $${0-action.payload}`);
+      return {...state, balance: state.balance + action.payload};
 
     case 'GAMBLE':
       if (Math.random() > 0.3) {
-        console.log("Better luck next time, lost 1000");
-        return {...state, balance: state.balance - 1000};
+        console.log(`Better luck next time, lost $${action.payload/3}`);
+        return {...state, balance: state.balance - action.payload/3};
       }
-      console.log("Congrats, you won 3000!");
-      return {...state, balance: state.balance + 3000};
+      console.log(`Congrats, you won $${action.payload}!`);
+      return {...state, balance: state.balance + action.payload};
 
     default:
       return state;
@@ -63,19 +63,19 @@ keypress(process.stdin)
 process.stdin.on('keypress', (ch, key) => {
   if (key) switch (key.name) {
     case 'l':
-      store.dispatch({type: 'BUY_LUNCH'});
+      store.dispatch({type: 'BUY_LUNCH', payload: -20});
       break;
 
     case 'c':
-      store.dispatch({type: 'BUY_CAR'});
+      store.dispatch({type: 'BUY_CAR', payload: -3000});
       break;
 
     case 'g':
-      store.dispatch({type: 'GAMBLE'});
+      store.dispatch({type: 'GAMBLE', payload: 3000});
       break;
 
     case 'p':
-      store.dispatch({type: 'GET_PAID'});
+      store.dispatch({type: 'GET_PAID', payload: 2000});
       break;
 
     case 'x':
