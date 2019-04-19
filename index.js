@@ -6,21 +6,24 @@ const initialState = { balance: 5000 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_PAID':
-      return {...state, balance: state.balance += 1000};
+      console.log("PAYDAY! +2000");
+      return {...state, balance: state.balance + 2000};
 
     case 'BUY_LUNCH':
-      return {...state, balance: state.balance -= 20};
+      console.log("You'd really save more by packing your lunch.");
+      return {...state, balance: state.balance - 20};
 
     case 'BUY_CAR':
-      return {...state, balance: state.balance -= 3000};
+      console.log("You buy a used car for 3000");
+      return {...state, balance: state.balance - 3000};
 
     case 'GAMBLE':
-      if (Math.random() > 0.5) {
-        console.log("bummer, you lost!");
-        return {...state, balance: state.balance -= 1000};
+      if (Math.random() > 0.3) {
+        console.log("Better luck next time, lost 1000");
+        return {...state, balance: state.balance - 1000};
       }
-      console.log("WINNER WINNER CHICKEN DINNER");
-      return {...state, balance: state.balance += 3000};
+      console.log("Congrats, you won 3000!");
+      return {...state, balance: state.balance + 3000};
 
     default:
       return state;
@@ -36,6 +39,8 @@ const MENU = '(l) buy lunch (c) buy car (g) gamble (p) get paid (x) exit';
 
 store.subscribe(() => {
   const state = store.getState(); // grab our state
+
+  console.log();
   console.log('Your bank account: ', state); // print out our balance
 
   console.log();
@@ -56,7 +61,7 @@ store.dispatch({type: '__INIT__'});
 keypress(process.stdin)
 
 process.stdin.on('keypress', (ch, key) => {
-  switch (key.name) {
+  if (key) switch (key.name) {
     case 'l':
       store.dispatch({type: 'BUY_LUNCH'});
       break;
@@ -75,6 +80,9 @@ process.stdin.on('keypress', (ch, key) => {
 
     case 'x':
       process.stdin.pause();
+
+    default:
+      break;
   }
 });
 
